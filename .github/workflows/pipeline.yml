@@ -19,6 +19,10 @@ jobs:
         image: totvsengpro/advpl-tlpp-code-analyzer
         env:
           TESTE_ENV: env_existe
+        volumes:
+          - ./src:/tmp
+          - ./analyser/config.json:/bin/conf/config.json
+          # - ./analyser/output:/bin/output
         options: --user root
       steps:
         - name: Checkout repository
