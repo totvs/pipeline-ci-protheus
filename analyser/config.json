@@ -1,0 +1,8 @@
+{
+    "breakList": [],
+    "breakOnError": true,
+    "ignoreList": [
+    ],
+    "printSonarFullOutput": false,
+    "printInternalWarnings": false
+}
