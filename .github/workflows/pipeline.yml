@@ -34,5 +34,10 @@ jobs:
         - name: check_env
           run: echo $TESTE_ENV
         - name: docker
-          run: docker run --rm totvsengpro/advpl-tlpp-code-analyzer
+          run: | 
+            docker run --rm 
+            -v ${{ github.workspace }}/src:/tmp \
+            -v ${{ github.workspace }}/analyser/config.json:/bin/conf/config.json \
+            -v ${{ github.workspace }}/analyser/output:/bin/output \
+            totvsengpro/advpl-tlpp-code-analyzer
         
