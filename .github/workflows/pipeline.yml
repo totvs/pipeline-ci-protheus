@@ -21,5 +21,7 @@ jobs:
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
+        - name: pwd
+          run: pwd
         - name: list
           run: ls -lah
