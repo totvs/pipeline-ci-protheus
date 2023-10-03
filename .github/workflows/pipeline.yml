@@ -17,6 +17,8 @@ jobs:
       runs-on: ubuntu-latest
       container:
         image: totvsengpro/advpl-tlpp-code-analyzer
+        env:
+          TESTE_ENV: env_existe
         options: --user root
       steps:
         - name: Checkout repository
@@ -25,3 +27,5 @@ jobs:
           run: pwd
         - name: list
           run: ls -lah
+        - name: check_env
+          run: echo $TESTE_ENV
