@@ -20,13 +20,14 @@ jobs:
         env:
           TESTE_ENV: env_existe
         volumes:
-          - ./src:/tmp
-          - ./analyser/config.json:/bin/conf/config.json
+          - ${{ github.workspace }}/src:/tmp
+          - ${{ github.workspace }}/analyser/config.json:/bin/conf/config.json
           # - ./analyser/output:/bin/output
         options: --user root
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
+          
         - name: pwd
           run: pwd
         - name: list
