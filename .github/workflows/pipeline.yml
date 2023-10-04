@@ -14,7 +14,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   analysis:
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       # container:
       #   image: totvsengpro/advpl-tlpp-code-analyzer
       #   env:
