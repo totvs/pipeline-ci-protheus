@@ -14,7 +14,8 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   analysis:
-      runs-on: self-hosted
+      name: Code Analysis
+      runs-on: ubuntu-latest
       # container:
       #   image: totvsengpro/advpl-tlpp-code-analyzer
       #   env:
@@ -34,10 +35,26 @@ jobs:
         - name: check_env
           run: echo $TESTE_ENV
         - name: docker
-          run: | 
+          run: |
             docker run --rm \
             -v ${{ github.workspace }}/src:/tmp \
             -v ${{ github.workspace }}/analyser/config.json:/bin/conf/config.json \
             -v ${{ github.workspace }}/analyser/output:/bin/output \
             totvsengpro/advpl-tlpp-code-analyzer
-        
+  build:
+      name: Build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+        - name: unzip
+          run: cd ./protheus/includes && unzip includes.zip
+        - name: docker
+          run: |
+            docker run --rm -it \
+            -v ${{ github.workspace }}/src:/tmp/compile \
+            -v ${{ github.workspace }}/protheus/includes:/tmp/includes \
+            -v ${{ github.workspace }}/protheus/appserver.ini:/opt/totvs/appserver/appserver.ini \
+            -v ${{ github.workspace }}/protheus/apo/:/opt/totvs/protheus/apo/ \
+            totvsengpro/appserver-dev \
+            ./appsrvlinux -compile -env=environment -files=/tmp/compile -includes=/tmp/includes
