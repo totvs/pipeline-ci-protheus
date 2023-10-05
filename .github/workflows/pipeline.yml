@@ -63,7 +63,7 @@ jobs:
           uses: actions/upload-artifact@v3
           with:
             name: custom-rpo
-            path: custom.rpo
+            path: ${{ github.workspace }}/protheus/apo/custom.rpo
   patch:
       name: Patch Gen
       needs: [build]
