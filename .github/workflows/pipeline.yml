@@ -92,4 +92,4 @@ jobs:
           uses: actions/upload-artifact@v3
           with:
             name: custom-ptm
-            path: custom.ptm
+            path: ${{ github.workspace }}/src/custom.ptm
