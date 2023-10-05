@@ -66,6 +66,8 @@ jobs:
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
+          with:
+            clean: false
         - name: list-files
           run: ls -lah ./protheus/apo && cd ./src && bash ../ci/scripts/list-files.sh
         - name: docker
