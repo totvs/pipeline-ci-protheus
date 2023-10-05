@@ -43,6 +43,7 @@ jobs:
             totvsengpro/advpl-tlpp-code-analyzer
   build:
       name: Build
+      needs: [analysis]
       runs-on: ubuntu-latest
       steps:
         - name: Checkout repository
@@ -51,7 +52,7 @@ jobs:
           run: cd ./protheus/includes && unzip includes.zip
         - name: docker
           run: |
-            docker run --rm -it \
+            docker run --rm \
             -v ${{ github.workspace }}/src:/tmp/compile \
             -v ${{ github.workspace }}/protheus/includes:/tmp/includes \
             -v ${{ github.workspace }}/protheus/appserver.ini:/opt/totvs/appserver/appserver.ini \
