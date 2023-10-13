@@ -44,7 +44,7 @@ jobs:
           run: ls -lah
         - name: docker
           run: |
-            docker run --rm -e HOME=/tmp \
+            docker run --rm --network=host -e HOME=/tmp \
             -v ${{ github.workspace }}/tir:/local totvsengpro/tir \
             python3 /local/CRMA980TESTSUITE.py
         - name: down env
