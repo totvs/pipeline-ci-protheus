@@ -30,7 +30,7 @@ jobs:
           run: ls -lah
         - name: docker-compose
           run: |
-            bash ci/scripts/up_env.sh
+            bash ci/scripts/up_env.sh && docker ps
   tir:
       name: TIR
       needs: [env]
@@ -47,9 +47,9 @@ jobs:
             docker run --rm --network=host -e HOME=/tmp \
             -v ${{ github.workspace }}/tir:/local totvsengpro/tir \
             python3 /local/CRMA980TESTSUITE.py
-        - name: down env
-          run: |
-            bash ci/scripts/down_env.sh
+        # - name: down env
+        #   run: |
+        #     bash ci/scripts/down_env.sh
   analysis:
       name: Code Analysis
       runs-on: ubuntu-latest
