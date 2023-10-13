@@ -23,9 +23,14 @@ jobs:
           run: pwd
         - name: list
           run: ls -lah
-        - name: docker
+        - name: extract dic
           run: |
-            bash ci/docker/up_env.sh
+            cd protheus/systemload && unzip sxs.zip
+        - name: list
+          run: ls -lah
+        - name: docker-compose
+          run: |
+            bash ci/scripts/up_env.sh
   tir:
       name: TIR
       needs: [env]
@@ -44,7 +49,7 @@ jobs:
             python3 /local/CRMA980TESTSUITE.py
         - name: down env
           run: |
-            bash ci/docker/down_env.sh
+            bash ci/scripts/down_env.sh
   analysis:
       name: Code Analysis
       runs-on: ubuntu-latest
