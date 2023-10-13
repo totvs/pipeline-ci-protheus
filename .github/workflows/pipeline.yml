@@ -26,9 +26,9 @@ jobs:
         - name: docker
           run: |
             bash ci/docker/up_env.sh
-  TIR:
+  tir:
       name: TIR
-      needs: [analysis]
+      needs: [env]
       runs-on: ubuntu-latest
       steps:
         - name: Checkout repository
