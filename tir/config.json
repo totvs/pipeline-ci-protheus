@@ -5,7 +5,7 @@
     "Language": "pt-br",
     "User": "admin",
     "Password": "",
-    "DebugLog": false,
+    "DebugLog": true,
     "TimeOut": 90,
     "Headless": true
 }

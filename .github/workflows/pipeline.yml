@@ -42,6 +42,9 @@ jobs:
           run: pwd
         - name: list
           run: ls -lah
+        - name: curl
+          run: |
+            curl localhost:8080
         - name: docker
           run: |
             docker run --rm --network=host -e HOME=/tmp \
@@ -50,83 +53,83 @@ jobs:
         # - name: down env
         #   run: |
         #     bash ci/scripts/down_env.sh
-  analysis:
-      name: Code Analysis
-      runs-on: ubuntu-latest
-      # container:
-      #   image: totvsengpro/advpl-tlpp-code-analyzer
-      #   env:
-      #     TESTE_ENV: env_existe
-      #   # volumes:
-      #     # - ${{ github.workspace }}/src:/tmp
-      #     # - ${{ github.workspace }}/analyser/config.json:/bin/conf/config.json
-      #     # - ./analyser/output:/bin/output
-      #   options: --user root
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
-        - name: pwd
-          run: pwd
-        - name: list
-          run: ls -lah
-        - name: check_env
-          run: echo $TESTE_ENV
-        - name: docker
-          run: |
-            docker run --rm \
-            -v ${{ github.workspace }}/src:/tmp \
-            -v ${{ github.workspace }}/analyser/config.json:/bin/conf/config.json \
-            -v ${{ github.workspace }}/analyser/output:/bin/output \
-            totvsengpro/advpl-tlpp-code-analyzer
-  build:
-      name: Build
-      needs: [analysis]
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
-        - name: unzip
-          run: cd ./protheus/includes && unzip includes.zip
-        - name: docker
-          run: |
-            docker run --rm \
-            -v ${{ github.workspace }}/src:/tmp/compile \
-            -v ${{ github.workspace }}/protheus/includes:/tmp/includes \
-            -v ${{ github.workspace }}/protheus/appserver.ini:/opt/totvs/appserver/appserver.ini \
-            -v ${{ github.workspace }}/protheus/apo/:/opt/totvs/protheus/apo/ \
-            totvsengpro/appserver-dev \
-            ./appsrvlinux -compile -env=environment -files=/tmp/compile -includes=/tmp/includes
-        - name: 'Upload RPO'
-          uses: actions/upload-artifact@v3
-          with:
-            name: custom-rpo
-            path: ${{ github.workspace }}/protheus/apo/custom.rpo
-  patch:
-      name: Patch Gen
-      needs: [build]
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
-          with:
-            clean: false
-        - uses: actions/download-artifact@v3
-          with:
-            name: custom-rpo
-            path: ${{ github.workspace }}/protheus/apo/
-        - name: list-files
-          run: ls -lah ./protheus/apo && cd ./src && bash ../ci/scripts/list-files.sh
-        - name: docker
-          run: |
-            docker run --rm \
-            -v ${{ github.workspace }}/src:/tmp/compile \
-            -v ${{ github.workspace }}/protheus/includes:/tmp/includes \
-            -v ${{ github.workspace }}/protheus/appserver.ini:/opt/totvs/appserver/appserver.ini \
-            -v ${{ github.workspace }}/protheus/apo/:/opt/totvs/protheus/apo/ \
-            totvsengpro/appserver-dev \
-            ./appsrvlinux -compile -genpatch -env=environment -files=/tmp/compile/sources.lst -includes=/tmp/includes -outgenpatch=/tmp/compile -patchtype=ptm
-        - name: 'Upload patch'
-          uses: actions/upload-artifact@v3
-          with:
-            name: custom-ptm
-            path: ${{ github.workspace }}/src/custom.ptm
+  # analysis:
+  #     name: Code Analysis
+  #     runs-on: ubuntu-latest
+  #     # container:
+  #     #   image: totvsengpro/advpl-tlpp-code-analyzer
+  #     #   env:
+  #     #     TESTE_ENV: env_existe
+  #     #   # volumes:
+  #     #     # - ${{ github.workspace }}/src:/tmp
+  #     #     # - ${{ github.workspace }}/analyser/config.json:/bin/conf/config.json
+  #     #     # - ./analyser/output:/bin/output
+  #     #   options: --user root
+  #     steps:
+  #       - name: Checkout repository
+  #         uses: actions/checkout@v3
+  #       - name: pwd
+  #         run: pwd
+  #       - name: list
+  #         run: ls -lah
+  #       - name: check_env
+  #         run: echo $TESTE_ENV
+  #       - name: docker
+  #         run: |
+  #           docker run --rm \
+  #           -v ${{ github.workspace }}/src:/tmp \
+  #           -v ${{ github.workspace }}/analyser/config.json:/bin/conf/config.json \
+  #           -v ${{ github.workspace }}/analyser/output:/bin/output \
+  #           totvsengpro/advpl-tlpp-code-analyzer
+  # build:
+  #     name: Build
+  #     needs: [analysis]
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #       - name: Checkout repository
+  #         uses: actions/checkout@v3
+  #       - name: unzip
+  #         run: cd ./protheus/includes && unzip includes.zip
+  #       - name: docker
+  #         run: |
+  #           docker run --rm \
+  #           -v ${{ github.workspace }}/src:/tmp/compile \
+  #           -v ${{ github.workspace }}/protheus/includes:/tmp/includes \
+  #           -v ${{ github.workspace }}/protheus/appserver.ini:/opt/totvs/appserver/appserver.ini \
+  #           -v ${{ github.workspace }}/protheus/apo/:/opt/totvs/protheus/apo/ \
+  #           totvsengpro/appserver-dev \
+  #           ./appsrvlinux -compile -env=environment -files=/tmp/compile -includes=/tmp/includes
+  #       - name: 'Upload RPO'
+  #         uses: actions/upload-artifact@v3
+  #         with:
+  #           name: custom-rpo
+  #           path: ${{ github.workspace }}/protheus/apo/custom.rpo
+  # patch:
+  #     name: Patch Gen
+  #     needs: [build]
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #       - name: Checkout repository
+  #         uses: actions/checkout@v3
+  #         with:
+  #           clean: false
+  #       - uses: actions/download-artifact@v3
+  #         with:
+  #           name: custom-rpo
+  #           path: ${{ github.workspace }}/protheus/apo/
+  #       - name: list-files
+  #         run: ls -lah ./protheus/apo && cd ./src && bash ../ci/scripts/list-files.sh
+  #       - name: docker
+  #         run: |
+  #           docker run --rm \
+  #           -v ${{ github.workspace }}/src:/tmp/compile \
+  #           -v ${{ github.workspace }}/protheus/includes:/tmp/includes \
+  #           -v ${{ github.workspace }}/protheus/appserver.ini:/opt/totvs/appserver/appserver.ini \
+  #           -v ${{ github.workspace }}/protheus/apo/:/opt/totvs/protheus/apo/ \
+  #           totvsengpro/appserver-dev \
+  #           ./appsrvlinux -compile -genpatch -env=environment -files=/tmp/compile/sources.lst -includes=/tmp/includes -outgenpatch=/tmp/compile -patchtype=ptm
+  #       - name: 'Upload patch'
+  #         uses: actions/upload-artifact@v3
+  #         with:
+  #           name: custom-ptm
+  #           path: ${{ github.workspace }}/src/custom.ptm
