@@ -33,7 +33,7 @@ jobs:
   #           bash ci/scripts/up_env.sh && docker ps
   tir:
       name: TIR
-      needs: [env]
+      # needs: [env]
       runs-on: runner-tir
       steps:
         - name: Checkout repository
