@@ -126,7 +126,7 @@ jobs:
             curl localhost:8080
         - name: docker
           run: |
-            HOME=/tmp python3 ${{ github.workspace }}/local/CRMA980TESTSUITE.py
+            HOME=/tmp python3 ${{ github.workspace }}/tir/CRMA980TESTSUITE.py
   # patch:
   #     name: Patch Gen
   #     needs: [tir]
