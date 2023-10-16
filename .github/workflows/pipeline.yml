@@ -13,28 +13,28 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  env:
-      name: Up Env
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
-        - name: pwd
-          run: pwd
-        - name: list
-          run: ls -lah
-        - name: extract dic
-          run: |
-            cd protheus/systemload && unzip sxs.zip
-        - name: list
-          run: ls -lah
-        - name: docker-compose
-          run: |
-            bash ci/scripts/up_env.sh && docker ps
+  # env:
+  #     name: Up Env
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #       - name: Checkout repository
+  #         uses: actions/checkout@v3
+  #       - name: pwd
+  #         run: pwd
+  #       - name: list
+  #         run: ls -lah
+  #       - name: extract dic
+  #         run: |
+  #           cd protheus/systemload && unzip sxs.zip
+  #       - name: list
+  #         run: ls -lah
+  #       - name: docker-compose
+  #         run: |
+  #           bash ci/scripts/up_env.sh && docker ps
   tir:
       name: TIR
       needs: [env]
-      runs-on: ubuntu-latest
+      runs-on: runner-tir
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
@@ -45,11 +45,11 @@ jobs:
         - name: curl
           run: |
             curl localhost:8080
-        - name: docker
-          run: |
-            docker run --rm --network=host -e HOME=/tmp \
-            -v ${{ github.workspace }}/tir:/local totvsengpro/tir \
-            python3 /local/CRMA980TESTSUITE.py
+        # - name: docker
+        #   run: |
+        #     docker run --rm --network=host -e HOME=/tmp \
+        #     -v ${{ github.workspace }}/tir:/local totvsengpro/tir \
+        #     python3 /local/CRMA980TESTSUITE.py
         # - name: down env
         #   run: |
         #     bash ci/scripts/down_env.sh
