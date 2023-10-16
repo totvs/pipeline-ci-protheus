@@ -112,8 +112,8 @@ jobs:
       needs: [build]
       runs-on: self-hosted
       steps:
-        # - name: Checkout repository
-        #   uses: actions/checkout@v3
+        - name: Checkout repository
+          uses: actions/checkout@v3
         - uses: actions/download-artifact@v3
           with:
             name: custom-rpo
@@ -126,7 +126,7 @@ jobs:
             curl localhost:8080
         - name: docker
           run: |
-            HOME=/tmp python3 /local/CRMA980TESTSUITE.py
+            HOME=/tmp python3 ${{ github.workspace }}/local/CRMA980TESTSUITE.py
   # patch:
   #     name: Patch Gen
   #     needs: [tir]
