@@ -45,6 +45,9 @@ jobs:
         - name: curl
           run: |
             curl localhost:8080
+        - name: share
+          run: |
+            cd /share/protheus/apo && ls && touch share.txt
         # - name: docker
         #   run: |
         #     docker run --rm --network=host -e HOME=/tmp \
