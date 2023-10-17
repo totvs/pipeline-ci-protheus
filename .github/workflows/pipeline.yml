@@ -110,7 +110,7 @@ jobs:
   tir:
       name: TIR
       needs: [build]
-      runs-on: self-hosted
+      runs-on: [self-hosted, linux, tir]
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
