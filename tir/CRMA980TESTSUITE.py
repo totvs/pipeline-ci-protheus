@@ -10,4 +10,5 @@ runner = unittest.TextTestRunner(verbosity=2)
 result = runner.run(suite)
 
 if len(result.errors) > 0 or len(result.failures) > 0:
+    print("custom exit")
     exit(1)
