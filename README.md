@@ -6,8 +6,7 @@ Para baixá-lo, faça um clone deste repositório em seu ambiente local: `git cl
 
 Caso deseje fazer uma execução totalmente local, considere as instruções deste repositório: https://github.com/totvs/protheus-ci-universo
 
-<!-- Esta pipeline de exemplo depende de uma base Protheus funcional para realizar a execução dos testes do TIR.
- -->
+Dúvidas podem ser encaminhadas via issue neste repositório. Sugestões via Pull Requests.
 
 ## Pipeline (etapas)
 
@@ -44,6 +43,14 @@ if len(result.errors) > 0 or len(result.failures) > 0:
     exit(1)
 ```
 
+### Visão aba Actions
+
+Na imagem abaixo é possível ver uma execução com sucesso da pipeline, onde foram executadas as 4 etapas e gerado os artefatos (custom rpo e patch) para aplicação no ambiente.
+
+![image](https://github.com/totvs/pipeline-ci-protheus/assets/10109480/722bb3c0-5f83-4ead-8c85-86fb76ded58e)
+
+*imagem anexada pois a retenção máxima do GitHub Actions é de 90 dias.
+  
 ## Ambiente Protheus com Docker
 
 Se deseja subir o ambiente Protheus via Docker deste exemplo, siga os seguinte passos:
